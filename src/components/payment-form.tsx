@@ -15,8 +15,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useActiveAccount } from "thirdweb/react";
-import { useState, useEffect, useRef } from "react";
-import { Bridge, toUnits } from "thirdweb";
+import { useState } from "react";
+import { toUnits } from "thirdweb";
 import { TokenSelector } from "@/components/ui/token-selector";
 import { SingleNetworkSelector } from "@/components/ui/network-selector";
 import { client } from "@/lib/constants";
@@ -53,7 +53,8 @@ export function PaymentForm({ onSuccess }: PaymentFormProps = {}) {
   const [selectedChainId, setSelectedChainId] = useState<number | undefined>(undefined);
 
   const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: zodResolver(formSchema as any),
     defaultValues: {
       title: "",
       description: "",

@@ -28,7 +28,6 @@ export function SingleNetworkSelector(props: {
   side?: "left" | "right" | "top" | "bottom";
   disableChainId?: boolean;
   align?: "center" | "start" | "end";
-  disableTestnets?: boolean;
   placeholder?: string;
 }) {
   const { data, isLoading } = useAllChainsData();
@@ -37,17 +36,13 @@ export function SingleNetworkSelector(props: {
   const chainsToShow = useMemo(() => {
     let chains = allChains;
 
-    if (props.disableTestnets) {
-      chains = chains.filter((chain) => !chain.testnet);
-    }
-
     if (props.chainIds) {
       const chainIdSet = new Set(props.chainIds);
       chains = chains.filter((chain) => chainIdSet.has(chain.chainId));
     }
 
     return chains;
-  }, [allChains, props.chainIds, props.disableTestnets]);
+  }, [allChains, props.chainIds]);
 
   const options = useMemo(() => {
     return chainsToShow.map((chain) => {

@@ -81,7 +81,7 @@ export default function Home() {
 
       // Get unique tokens to fetch prices for
       const links = linksData.data || [];
-      const uniqueTokens = links.reduce((acc: any[], link: any) => {
+      const uniqueTokens = links.reduce((acc: Array<{chainId: number, address: string}>, link: PaymentLink) => {
         const token = link.destinationToken;
         const exists = acc.find(t => t.chainId === token.chainId && t.address === token.address);
         if (!exists) {
@@ -100,9 +100,9 @@ export default function Home() {
             tokenAddress: token.address,
             limit: 1,
           });
-          if (tokens.length > 0 && tokens[0].priceUsd) {
+          if (tokens.length > 0 && tokens[0].prices.USD) {
             const key = `${token.chainId}-${token.address}`;
-            tokenPrices[key] = tokens[0].priceUsd;
+            tokenPrices[key] = tokens[0].prices.USD;
           }
         } catch (error) {
           console.warn(`Failed to fetch price for token ${token.address} on chain ${token.chainId}:`, error);
@@ -110,7 +110,7 @@ export default function Home() {
       }
 
       // Merge price data into payment links
-      const linksWithPrices = links.map((link: any) => ({
+      const linksWithPrices = links.map((link: PaymentLink) => ({
         ...link,
         priceUsd: tokenPrices[`${link.destinationToken.chainId}-${link.destinationToken.address}`] || undefined,
       }));

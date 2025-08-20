@@ -64,8 +64,8 @@ export default function InvoicePage() {
               tokenAddress: data.data.destinationToken.address,
               limit: 1,
             });
-            if (tokens.length > 0 && tokens[0].priceUsd) {
-              setTokenPrice(tokens[0].priceUsd);
+            if (tokens.length > 0 && tokens[0].prices.USD) {
+              setTokenPrice(tokens[0].prices.USD);
             }
           } catch (error) {
             console.warn(`Failed to fetch price for token ${data.data.destinationToken.address}:`, error);

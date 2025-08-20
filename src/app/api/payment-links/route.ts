@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
     console.log(data);
 
     // Filter links by receiver address
-    const filteredLinks = data.data?.filter((link: any) =>
+    const filteredLinks = data.data?.filter((link: { receiver?: string }) =>
       link.receiver?.toLowerCase() === receiver.toLowerCase()
     ) || [];
 

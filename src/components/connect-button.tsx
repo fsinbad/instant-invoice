@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useConnect, useActiveWallet } from "thirdweb/react";
-import { createWallet, injectedProvider } from "thirdweb/wallets";
+import { createWallet, injectedProvider, WalletId } from "thirdweb/wallets";
 import { cn } from "@/lib/utils";
 import { client } from "@/lib/constants";
 
@@ -15,24 +15,24 @@ interface ConnectButtonProps {
   title?: string;
 }
 
-export function ConnectButton({ 
-  id, 
-  children, 
+export function ConnectButton({
+  id,
+  children,
   className,
   variant = "default",
   size = "default",
   title,
-  ...props 
+  ...props
 }: ConnectButtonProps) {
   const { connect, isConnecting } = useConnect();
   const activeWallet = useActiveWallet();
 
   const handleConnect = () => {
     connect(async () => {
-      const wallet = createWallet(id);
+      const wallet = createWallet(id as WalletId);
 
       // if user has wallet installed, connect to it
-      if (injectedProvider(id)) {
+      if (injectedProvider(id as WalletId)) {
         await wallet.connect({ client });
       }
       // open WalletConnect modal so user can scan the QR code and connect
